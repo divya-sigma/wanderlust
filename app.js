@@ -60,8 +60,22 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => res.redirect("/listings"));
 
 app.get("/listings", async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index", { allListings });
+  const search = req.query.search || "";
+  let allListings;
+
+  if (search) {
+    allListings = await Listing.find({
+      $or: [
+        { location: { $regex: search, $options: "i" } },
+        { country: { $regex: search, $options: "i" } },
+        { title: { $regex: search, $options: "i" } },
+      ],
+    });
+  } else {
+    allListings = await Listing.find({});
+  }
+
+  res.render("listings/index", { allListings, search });
 });
 
 app.get("/listings/new", (req, res) => {

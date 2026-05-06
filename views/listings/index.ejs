@@ -70,6 +70,18 @@
 
   <nav>
   <h1>🏕️ Wanderlust</h1>
+  <form action="/listings" method="GET" style="display:flex; gap:8px;">
+    <input 
+      type="text" 
+      name="search" 
+      placeholder="Search by location..." 
+      value="<%= search || '' %>"
+      style="padding: 8px 16px; border-radius: 8px; border: none; font-size: 14px; width: 220px; outline: none;"
+    />
+    <button type="submit" style="padding: 8px 16px; background: white; color: #ff385c; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+      Search
+    </button>
+  </form>
   <div style="display:flex; gap:12px; align-items:center;">
     <% if (currUser) { %>
       <span style="color:white; font-size:14px;">Hi, <%= currUser.username %>!</span>
@@ -81,7 +93,15 @@
     <% } %>
   </div>
 </nav>
-
+<% if (allListings.length === 0) { %>
+  <div style="text-align:center; margin-top: 60px; color: #aaa;">
+    <h3 style="font-size: 20px;">No listings found for "<%= search %>"</h3>
+    <p style="margin-top: 8px;">Try searching for a different location!</p>
+    <a href="/listings" style="color: #ff385c; font-weight: bold; display:inline-block; margin-top:12px;">
+      View all listings
+    </a>
+  </div>
+<% } %>
   
 
   <div class="cards">
