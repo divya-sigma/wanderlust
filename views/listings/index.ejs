@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wanderlust — All Listings</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f7f7f7; }
+
+    nav {
+      background: #ff385c;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav h1 { color: white; font-size: 22px; letter-spacing: 1px; }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      background: white;
+      color: #ff385c;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 32px 0 16px;
+      font-size: 26px;
+      color: #333;
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+      padding: 16px 32px 48px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      width: 280px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card:hover { transform: translateY(-4px); }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-body { padding: 14px; }
+    .card-body h3 { font-size: 16px; margin-bottom: 6px; color: #222; }
+    .card-body p  { font-size: 13px; color: #777; margin-bottom: 4px; }
+    .card-body .price { font-size: 15px; font-weight: bold; color: #ff385c; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+  <nav>
+  <h1>🏕️ Wanderlust</h1>
+  <div style="display:flex; gap:12px; align-items:center;">
+    <% if (currUser) { %>
+      <span style="color:white; font-size:14px;">Hi, <%= currUser.username %>!</span>
+      <a href="/listings/new">+ Add Listing</a>
+      <a href="/logout" style="background:#222;">Logout</a>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <a href="/signup" style="background:#222; color:white;">Signup</a>
+    <% } %>
+  </div>
+</nav>
+
+  
+
+  <div class="cards">
+    <% for (let listing of allListings) { %>
+      <a class="card" href="/listings/<%= listing._id %>">
+        <img 
+  src="<%= listing.image && listing.image.url ? listing.image.url : 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800' %>" 
+  alt="<%= listing.title %>"
+/>
+        <div class="card-body">
+          <h3><%= listing.title %></h3>
+          <p>📍 <%= listing.location %>, <%= listing.country %></p>
+          <p class="price">₹<%= listing.price %> / night</p>
+        </div>
+      </a>
+    <% } %>
+  </div>
+
+</body>
+</html>

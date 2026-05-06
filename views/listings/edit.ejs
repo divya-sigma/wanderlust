@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Listing</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f7f7f7; }
+    nav {
+      background: #ff385c;
+      padding: 16px 32px;
+    }
+    nav h1 { color: white; font-size: 22px; }
+    .form-wrap {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    h2 { font-size: 22px; margin-bottom: 24px; color: #222; }
+    label { font-size: 13px; color: #555; display: block; margin-bottom: 6px; }
+    input, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      margin-bottom: 18px;
+      outline: none;
+    }
+    input:focus, textarea:focus { border-color: #ff385c; }
+    textarea { height: 100px; resize: none; }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #222;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover { background: #444; }
+  </style>
+</head>
+<body>
+
+  <nav><h1>🏕️ Wanderlust</h1></nav>
+
+  <div class="form-wrap">
+    <h2>Edit Listing</h2>
+
+    <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+      <label>Title</label>
+      <input type="text" name="listing[title]" value="<%= listing.title %>" required />
+
+      <label>Description</label>
+      <textarea name="listing[description]"><%= listing.description %></textarea>
+
+      <label>Current Image</label>
+<% if (listing.image && listing.image.url) { %>
+  <img src="<%= listing.image.url %>" style="width:100%; border-radius:8px; margin-bottom:10px;" />
+<% } %>
+<label>Change Image</label>
+<input type="file" name="listing[image]" accept="image/*" />
+
+      <label>Price per night (₹)</label>
+      <input type="number" name="listing[price]" value="<%= listing.price %>" />
+
+      <label>Location</label>
+      <input type="text" name="listing[location]" value="<%= listing.location %>" />
+
+      <label>Country</label>
+      <input type="text" name="listing[country]" value="<%= listing.country %>" />
+
+      <button type="submit">Update Listing</button>
+    </form>
+  </div>
+
+</body>
+</html>

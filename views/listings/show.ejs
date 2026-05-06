@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= listing.title %></title>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f7f7f7; }
+    nav {
+      background: #ff385c;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav h1 { color: white; font-size: 22px; }
+    nav a {
+      color: #ff385c;
+      background: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      padding-bottom: 60px;
+    }
+    .listing-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      margin-bottom: 24px;
+    }
+    .listing-card img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+    }
+    .details { padding: 24px; }
+    .details h2 { font-size: 24px; margin-bottom: 10px; color: #222; }
+    .details p  { font-size: 15px; color: #555; margin-bottom: 8px; }
+    .price { font-size: 20px; font-weight: bold; color: #ff385c; margin: 12px 0; }
+    .owner { font-size: 13px; color: #999; margin-bottom: 16px; }
+    .actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+    .btn {
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-edit   { background: #222; color: white; }
+    .btn-delete { background: #ff385c; color: white; }
+    .btn-back   { background: #eee; color: #333; }
+
+    /* Flash */
+    .flash-success {
+      background: #e0f7e9; color: #1a7a3f;
+      padding: 12px 16px; border-radius: 8px;
+      margin-bottom: 16px; font-size: 14px;
+    }
+    .flash-error {
+      background: #ffe0e0; color: #cc0000;
+      padding: 12px 16px; border-radius: 8px;
+      margin-bottom: 16px; font-size: 14px;
+    }
+
+    /* Map */
+    .map-section {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      margin-bottom: 24px;
+    }
+    .map-section h3 { font-size: 20px; margin-bottom: 16px; color: #222; }
+    #map {
+      width: 100%;
+      height: 300px;
+      border-radius: 12px;
+    }
+
+    /* Reviews */
+    .reviews-section {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .reviews-section h3 { font-size: 20px; margin-bottom: 20px; color: #222; }
+    .review-form { margin-bottom: 28px; }
+    .review-form label { font-size: 13px; color: #555; display: block; margin-bottom: 6px; }
+    .review-form select,
+    .review-form textarea {
+      width: 100%; padding: 10px 14px;
+      border: 1px solid #ddd; border-radius: 8px;
+      font-size: 15px; margin-bottom: 14px; outline: none;
+    }
+    .review-form select:focus,
+    .review-form textarea:focus { border-color: #ff385c; }
+    .review-form textarea { height: 90px; resize: none; }
+    .review-form button {
+      padding: 10px 28px;
+      background: #ff385c; color: white;
+      font-size: 14px; font-weight: bold;
+      border: none; border-radius: 8px; cursor: pointer;
+    }
+    .review-card {
+      border-top: 1px solid #eee;
+      padding: 16px 0;
+    }
+    .review-card .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .review-card .author { font-weight: bold; font-size: 14px; color: #222; }
+    .review-card .stars  { color: #f39c12; font-size: 16px; }
+    .review-card .comment { font-size: 14px; color: #555; }
+    .review-card .delete-btn {
+      margin-top: 8px;
+      padding: 6px 14px;
+      background: #ff385c; color: white;
+      border: none; border-radius: 6px;
+      font-size: 12px; cursor: pointer;
+    }
+    .no-reviews { color: #aaa; font-size: 14px; }
+    /* Star Rating */
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.star-rating input {
+  display: none;
+  width: auto;
+  margin: 0;
+}
+
+.star-rating label {
+  font-size: 36px;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin: 0;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+  color: #f39c12;
+}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h1>🏕️ Wanderlust</h1>
+    <a href="/listings">All Listings</a>
+  </nav>
+
+  <div class="container">
+
+    <% if (success && success.length > 0) { %>
+      <div class="flash-success"><%= success %></div>
+    <% } %>
+    <% if (error && error.length > 0) { %>
+      <div class="flash-error"><%= error %></div>
+    <% } %>
+
+    <!-- Listing Card -->
+    <div class="listing-card">
+      <img
+  src="<%= listing.image && listing.image.url ? listing.image.url : 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800' %>"
+  alt="<%= listing.title %>"
+/>
+      <div class="details">
+        <h2><%= listing.title %></h2>
+        <p><%= listing.description %></p>
+        <p>📍 <%= listing.location %>, <%= listing.country %></p>
+        <div class="price">₹<%= listing.price %> / night</div>
+        <% if (listing.owner) { %>
+          <div class="owner">Listed by: <%= listing.owner.username %></div>
+        <% } %>
+
+        <div class="actions">
+          <a class="btn btn-back" href="/listings">← Back</a>
+          <% if (currUser && listing.owner && currUser._id.equals(listing.owner._id)) { %>
+            <a class="btn btn-edit" href="/listings/<%= listing._id %>/edit">Edit</a>
+            <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+              <button class="btn btn-delete" type="submit">Delete</button>
+            </form>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <% if (listing.geometry && listing.geometry.coordinates) { %>
+      <div class="map-section">
+        <h3>📍 Where you'll be</h3>
+        <div id="map"></div>
+      </div>
+    <% } %>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+      <h3>⭐ Reviews</h3>
+
+      <% if (currUser) { %>
+        <div class="review-form">
+          <form action="/listings/<%= listing._id %>/reviews" method="POST">
+            <label>Your Rating</label>
+                <div class="star-rating">
+                  <input type="radio" name="review[rating]" value="5" id="star5" required />
+                  <label for="star5">★</label>
+                  <input type="radio" name="review[rating]" value="4" id="star4" />
+                  <label for="star4">★</label>
+                  <input type="radio" name="review[rating]" value="3" id="star3" />
+                  <label for="star3">★</label>
+                  <input type="radio" name="review[rating]" value="2" id="star2" />
+                  <label for="star2">★</label>
+                  <input type="radio" name="review[rating]" value="1" id="star1" />
+                  <label for="star1">★</label>
+                </div>
+            <label>Your Comment</label>
+            <textarea name="review[comment]" placeholder="Share your experience..."></textarea>
+            <button type="submit">Submit Review</button>
+          </form>
+        </div>
+      <% } else { %>
+        <p style="margin-bottom:20px; font-size:14px; color:#888;">
+          <a href="/login" style="color:#ff385c; font-weight:bold;">Login</a> to leave a review!
+        </p>
+      <% } %>
+
+      <% if (listing.reviews.length === 0) { %>
+        <p class="no-reviews">No reviews yet. Be the first to review!</p>
+      <% } else { %>
+        <% for (let review of listing.reviews) { %>
+          <div class="review-card">
+            <div class="meta">
+              <span class="author">@<%= review.author ? review.author.username : "user" %></span>
+              <span class="stars">
+                <% for (let i = 0; i < review.rating; i++) { %>⭐<% } %>
+              </span>
+            </div>
+            <div class="comment"><%= review.comment %></div>
+            <% if (currUser && review.author && currUser._id.equals(review.author._id)) { %>
+              <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                <button class="delete-btn" type="submit">Delete Review</button>
+              </form>
+            <% } %>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+
+  </div>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <script>
+    <% if (listing.geometry && listing.geometry.coordinates) { %>
+      mapboxgl.accessToken = "<%= process.env.MAPBOX_TOKEN %>";
+
+      const map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v12",
+        center: <%- JSON.stringify(listing.geometry.coordinates) %>,
+        zoom: 10,
+      });
+
+      new mapboxgl.Marker({ color: "#ff385c" })
+        .setLngLat(<%- JSON.stringify(listing.geometry.coordinates) %>)
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }).setHTML(
+            "<h4><%= listing.title %></h4><p>📍 <%= listing.location %>, <%= listing.country %></p>"
+          )
+        )
+        .addTo(map);
+
+      map.addControl(new mapboxgl.NavigationControl());
+    <% } %>
+  </script>
+
+</body>
+</html>
