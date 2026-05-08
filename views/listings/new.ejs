@@ -2,15 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Add New Listing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Listing — Wanderlust</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Arial, sans-serif; background: #f7f7f7; }
     nav {
       background: #ff385c;
-      padding: 16px 32px;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     nav h1 { color: white; font-size: 22px; }
+    nav a {
+      color: #ff385c; background: white;
+      padding: 7px 14px; border-radius: 8px;
+      text-decoration: none; font-weight: bold; font-size: 13px;
+    }
     .form-wrap {
       max-width: 600px;
       margin: 40px auto;
@@ -22,58 +31,50 @@
     h2 { font-size: 22px; margin-bottom: 24px; color: #222; }
     label { font-size: 13px; color: #555; display: block; margin-bottom: 6px; }
     input, textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 15px;
-      margin-bottom: 18px;
-      outline: none;
+      width: 100%; padding: 10px 14px;
+      border: 1px solid #ddd; border-radius: 8px;
+      font-size: 15px; margin-bottom: 18px; outline: none;
     }
     input:focus, textarea:focus { border-color: #ff385c; }
     textarea { height: 100px; resize: none; }
+    input[type="file"] {
+      padding: 8px; cursor: pointer;
+    }
     button {
-      width: 100%;
-      padding: 12px;
-      background: #ff385c;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+      width: 100%; padding: 12px;
+      background: #ff385c; color: white;
+      font-size: 16px; font-weight: bold;
+      border: none; border-radius: 8px; cursor: pointer;
     }
     button:hover { background: #e0314f; }
+    @media (max-width: 600px) {
+      .form-wrap { margin: 20px 16px; padding: 24px 20px; }
+      nav h1 { font-size: 18px; }
+    }
   </style>
 </head>
 <body>
-
-  <nav><h1>🏕️ Wanderlust</h1></nav>
-
+  <nav>
+    <h1>🏕️ Wanderlust</h1>
+    <a href="/listings">All Listings</a>
+  </nav>
   <div class="form-wrap">
-    <h2>Add a New Listing</h2>
-
+    <h2>Add a New Listing 🏡</h2>
     <form action="/listings" method="POST" enctype="multipart/form-data">
       <label>Title</label>
       <input type="text" name="listing[title]" placeholder="Enter title" required />
-
       <label>Description</label>
       <textarea name="listing[description]" placeholder="Describe your place"></textarea>
-
       <label>Image</label>
-<input type="file" name="listing[image]" accept="image/*" />
+      <input type="file" name="listing[image]" accept="image/*" />
       <label>Price per night (₹)</label>
       <input type="number" name="listing[price]" placeholder="e.g. 1500" />
-
       <label>Location</label>
       <input type="text" name="listing[location]" placeholder="e.g. Goa" />
-
       <label>Country</label>
       <input type="text" name="listing[country]" placeholder="e.g. India" />
-
       <button type="submit">Add Listing</button>
     </form>
   </div>
-
 </body>
 </html>
