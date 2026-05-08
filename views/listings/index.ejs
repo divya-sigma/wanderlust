@@ -8,115 +8,189 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Arial, sans-serif; background: #f7f7f7; }
 
+    /* Navbar */
     nav {
       background: #ff385c;
-      padding: 16px 32px;
+      padding: 14px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
-    nav h1 { color: white; font-size: 22px; letter-spacing: 1px; }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      background: white;
+    nav h1 { color: white; font-size: 22px; }
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links span { color: white; font-size: 14px; }
+    .nav-links a {
       color: #ff385c;
-      padding: 8px 16px;
+      background: white;
+      padding: 7px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .nav-links a.dark {
+      background: #222;
+      color: white;
+    }
+
+    /* Search Bar */
+    .search-wrap {
+      background: white;
+      padding: 16px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .search-form {
+      display: flex;
+      gap: 8px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .search-form input {
+      flex: 1;
+      padding: 10px 16px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+    .search-form input:focus { border-color: #ff385c; }
+    .search-form button {
+      padding: 10px 20px;
+      background: #ff385c;
+      color: white;
+      border: none;
       border-radius: 8px;
       font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
     }
+    .search-form button:hover { background: #e0314f; }
 
-    h2 {
-      text-align: center;
-      margin: 32px 0 16px;
-      font-size: 26px;
-      color: #333;
-    }
-
+    /* Cards */
     .cards {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 24px;
-      justify-content: center;
-      padding: 16px 32px 48px;
+      padding: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .card {
       background: white;
       border-radius: 12px;
-      width: 280px;
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       transition: transform 0.2s;
       text-decoration: none;
       color: inherit;
+      display: block;
     }
     .card:hover { transform: translateY(-4px); }
 
     .card img {
       width: 100%;
-      height: 180px;
+      height: 200px;
       object-fit: cover;
     }
 
     .card-body { padding: 14px; }
     .card-body h3 { font-size: 16px; margin-bottom: 6px; color: #222; }
     .card-body p  { font-size: 13px; color: #777; margin-bottom: 4px; }
-    .card-body .price { font-size: 15px; font-weight: bold; color: #ff385c; margin-top: 8px; }
+    .card-body .price {
+      font-size: 15px;
+      font-weight: bold;
+      color: #ff385c;
+      margin-top: 8px;
+    }
+
+    /* No results */
+    .no-results {
+      text-align: center;
+      margin-top: 60px;
+      color: #aaa;
+      padding: 0 24px;
+    }
+    .no-results h3 { font-size: 20px; margin-bottom: 8px; }
+    .no-results a {
+      color: #ff385c;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 12px;
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav { padding: 12px 16px; }
+      nav h1 { font-size: 18px; }
+      .nav-links a { padding: 6px 10px; font-size: 12px; }
+      .search-wrap { padding: 12px 16px; }
+      .cards { padding: 16px; gap: 16px; }
+      .card img { height: 160px; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- Navbar -->
   <nav>
-  <h1>🏕️ Wanderlust</h1>
-  <form action="/listings" method="GET" style="display:flex; gap:8px;">
-    <input 
-      type="text" 
-      name="search" 
-      placeholder="Search by location..." 
-      value="<%= search || '' %>"
-      style="padding: 8px 16px; border-radius: 8px; border: none; font-size: 14px; width: 220px; outline: none;"
-    />
-    <button type="submit" style="padding: 8px 16px; background: white; color: #ff385c; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-      Search
-    </button>
-  </form>
-  <div style="display:flex; gap:12px; align-items:center;">
-    <% if (currUser) { %>
-      <span style="color:white; font-size:14px;">Hi, <%= currUser.username %>!</span>
-      <a href="/listings/new">+ Add Listing</a>
-      <a href="/logout" style="background:#222;">Logout</a>
-    <% } else { %>
-      <a href="/login">Login</a>
-      <a href="/signup" style="background:#222; color:white;">Signup</a>
-    <% } %>
-  </div>
-</nav>
-<% if (allListings.length === 0) { %>
-  <div style="text-align:center; margin-top: 60px; color: #aaa;">
-    <h3 style="font-size: 20px;">No listings found for "<%= search %>"</h3>
-    <p style="margin-top: 8px;">Try searching for a different location!</p>
-    <a href="/listings" style="color: #ff385c; font-weight: bold; display:inline-block; margin-top:12px;">
-      View all listings
-    </a>
-  </div>
-<% } %>
-  
+    <h1>🏕️ Wanderlust</h1>
+    <div class="nav-links">
+      <% if (currUser) { %>
+        <span>Hi, <%= currUser.username %>!</span>
+        <a href="/listings/new">+ Add</a>
+        <a href="/logout" class="dark">Logout</a>
+      <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/signup" class="dark">Signup</a>
+      <% } %>
+    </div>
+  </nav>
 
+  <!-- Search Bar -->
+  <div class="search-wrap">
+    <form class="search-form" action="/listings" method="GET">
+      <input
+        type="text"
+        name="search"
+        placeholder="🔍 Search by location, country or title..."
+        value="<%= search || '' %>"
+      />
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <!-- Cards -->
   <div class="cards">
-    <% for (let listing of allListings) { %>
-      <a class="card" href="/listings/<%= listing._id %>">
-        <img 
-  src="<%= listing.image && listing.image.url ? listing.image.url : 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800' %>" 
-  alt="<%= listing.title %>"
-/>
-        <div class="card-body">
-          <h3><%= listing.title %></h3>
-          <p>📍 <%= listing.location %>, <%= listing.country %></p>
-          <p class="price">₹<%= listing.price %> / night</p>
-        </div>
-      </a>
+    <% if (allListings.length === 0) { %>
+      <div class="no-results">
+        <h3>No listings found for "<%= search %>"</h3>
+        <p>Try searching for a different location!</p>
+        <a href="/listings">View all listings</a>
+      </div>
+    <% } else { %>
+      <% for (let listing of allListings) { %>
+        <a class="card" href="/listings/<%= listing._id %>">
+          <img
+            src="<%= listing.image && listing.image.url ? listing.image.url : 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800' %>"
+            alt="<%= listing.title %>"
+          />
+          <div class="card-body">
+            <h3><%= listing.title %></h3>
+            <p>📍 <%= listing.location %>, <%= listing.country %></p>
+            <div class="price">₹<%= listing.price %> / night</div>
+          </div>
+        </a>
+      <% } %>
     <% } %>
   </div>
 
