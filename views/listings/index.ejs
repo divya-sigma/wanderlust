@@ -6,7 +6,13 @@
   <title>Wanderlust — All Listings</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; background: #f7f7f7; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
     /* Search */
     .search-wrap {
@@ -37,7 +43,6 @@
       border-radius: 50px;
       font-size: 18px;
       cursor: pointer;
-      aspect-ratio: 1;
     }
 
     /* Categories */
@@ -71,6 +76,9 @@
     .category.active { background: #fff0f0; color: #ff385c; border-bottom: 2px solid #ff385c; }
     .category span { font-size: 28px; }
     .category p { font-size: 12px; font-weight: 500; white-space: nowrap; }
+
+    /* Main content takes remaining space */
+    .main-content { flex: 1; }
 
     /* Cards Grid */
     .cards {
@@ -167,71 +175,77 @@
     <div class="flash-error"><%= error %></div>
   <% } %>
 
-  <!-- Search -->
-  <div class="search-wrap">
-    <form class="search-form" action="/listings" method="GET">
-      <input
-        type="text"
-        name="search"
-        placeholder="Search by location..."
-        value="<%= search || '' %>"
-      />
-      <button type="submit">🔍</button>
-    </form>
-  </div>
+  <!-- This div wraps everything and pushes footer down -->
+  <div class="main-content">
 
-  <!-- Categories -->
-  <div class="categories">
-    <a class="category <%= !search ? 'active' : '' %>" href="/listings">
-      <span>🏠</span><p>All</p>
-    </a>
-    <a class="category <%= search === 'beach' ? 'active' : '' %>" href="/listings?search=beach">
-      <span>🏖️</span><p>Beaches</p>
-    </a>
-    <a class="category <%= search === 'mountain' ? 'active' : '' %>" href="/listings?search=mountain">
-      <span>🏔️</span><p>Mountains</p>
-    </a>
-    <a class="category <%= search === 'lake' ? 'active' : '' %>" href="/listings?search=lake">
-      <span>🏞️</span><p>Lakes</p>
-    </a>
-    <a class="category <%= search === 'nature' ? 'active' : '' %>" href="/listings?search=nature">
-      <span>🌿</span><p>Nature</p>
-    </a>
-    <a class="category <%= search === 'adventure' ? 'active' : '' %>" href="/listings?search=adventure">
-      <span>🧗</span><p>Adventure</p>
-    </a>
-    <a class="category <%= search === 'farm' ? 'active' : '' %>" href="/listings?search=farm">
-      <span>🚜</span><p>Farms</p>
-    </a>
-    <a class="category <%= search === 'village' ? 'active' : '' %>" href="/listings?search=village">
-      <span>🛖</span><p>Village</p>
-    </a>
-  </div>
+    <!-- Search -->
+    <div class="search-wrap">
+      <form class="search-form" action="/listings" method="GET">
+        <input
+          type="text"
+          name="search"
+          placeholder="Search by location..."
+          value="<%= search || '' %>"
+        />
+        <button type="submit">🔍</button>
+      </form>
+    </div>
 
-  <!-- Cards -->
-  <div class="cards">
-    <% if (allListings.length === 0) { %>
-      <div class="no-results">
-        <h3>No listings found for "<%= search %>"</h3>
-        <p>Try a different search or category!</p>
-        <a href="/listings">View all listings</a>
-      </div>
-    <% } else { %>
-      <% for (let listing of allListings) { %>
-        <a class="card" href="/listings/<%= listing._id %>">
-          <img
-            src="<%= listing.image && listing.image.url ? listing.image.url : 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800' %>"
-            alt="<%= listing.title %>"
-          />
-          <div class="card-body">
-            <h3><%= listing.title %></h3>
-            <p>📍 <%= listing.location %>, <%= listing.country %></p>
-            <div class="price">₹<span><%= listing.price %></span> / night</div>
-          </div>
-        </a>
+    <!-- Categories -->
+    <div class="categories">
+      <a class="category <%= !search ? 'active' : '' %>" href="/listings">
+        <span>🏠</span><p>All</p>
+      </a>
+      <a class="category <%= search === 'beach' ? 'active' : '' %>" href="/listings?search=beach">
+        <span>🏖️</span><p>Beaches</p>
+      </a>
+      <a class="category <%= search === 'mountain' ? 'active' : '' %>" href="/listings?search=mountain">
+        <span>🏔️</span><p>Mountains</p>
+      </a>
+      <a class="category <%= search === 'lake' ? 'active' : '' %>" href="/listings?search=lake">
+        <span>🏞️</span><p>Lakes</p>
+      </a>
+      <a class="category <%= search === 'nature' ? 'active' : '' %>" href="/listings?search=nature">
+        <span>🌿</span><p>Nature</p>
+      </a>
+      <a class="category <%= search === 'adventure' ? 'active' : '' %>" href="/listings?search=adventure">
+        <span>🧗</span><p>Adventure</p>
+      </a>
+      <a class="category <%= search === 'farm' ? 'active' : '' %>" href="/listings?search=farm">
+        <span>🚜</span><p>Farms</p>
+      </a>
+      <a class="category <%= search === 'village' ? 'active' : '' %>" href="/listings?search=village">
+        <span>🛖</span><p>Village</p>
+      </a>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards">
+      <% if (allListings.length === 0) { %>
+        <div class="no-results">
+          <h3>No listings found for "<%= search %>"</h3>
+          <p>Try a different search or category!</p>
+          <a href="/listings">View all listings</a>
+        </div>
+      <% } else { %>
+        <% for (let listing of allListings) { %>
+          <a class="card" href="/listings/<%= listing._id %>">
+            <img
+              src="<%= listing.image && listing.image.url ? listing.image.url : 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800' %>"
+              alt="<%= listing.title %>"
+            />
+            <div class="card-body">
+              <h3><%= listing.title %></h3>
+              <p>📍 <%= listing.location %>, <%= listing.country %></p>
+              <div class="price">₹<span><%= listing.price %></span> / night</div>
+            </div>
+          </a>
+        <% } %>
       <% } %>
-    <% } %>
+    </div>
+
   </div>
+  <!-- end main-content -->
 
   <%- include('../partials/footer') %>
 
