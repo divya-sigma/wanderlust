@@ -191,11 +191,7 @@
 </head>
 <body>
 
-  <nav>
-    <h1>🏕️ Wanderlust</h1>
-    <a href="/listings">All Listings</a>
-  </nav>
-
+  <%- include('../partials/navbar') %>
   <div class="container">
 
     <% if (success && success.length > 0) { %>
@@ -315,6 +311,7 @@
       map.addControl(new mapboxgl.NavigationControl());
     <% } %>
   </script>
+  <%- include('../partials/footer') %>
 
 </body>
 </html>

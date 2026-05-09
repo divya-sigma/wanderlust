@@ -64,10 +64,7 @@
   </style>
 </head>
 <body>
-  <nav>
-    <h1>🏕️ Wanderlust</h1>
-    <a href="/listings">All Listings</a>
-  </nav>
+  <%- include('../../partials/navbar') %>
   <div class="form-wrap">
     <h2>Create Account 🏕️</h2>
     <% if (error && error.length > 0) { %>
@@ -84,5 +81,6 @@
     </form>
     <div class="link">Already have an account? <a href="/login">Log in</a></div>
   </div>
+  <%- include('../../partials/footer') %>
 </body>
 </html>

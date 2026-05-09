@@ -1,0 +1,121 @@
+<nav>
+  <div class="nav-left">
+    <a href="/listings" class="nav-brand">🏕️ Wanderlust</a>
+  </div>
+
+  <!-- Hamburger (mobile only) -->
+  <button class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Nav Links -->
+  <div class="nav-links" id="navLinks">
+    <% if (currUser) { %>
+      <span class="nav-user">Hi, <%= currUser.username %>!</span>
+      <a href="/listings/new" class="nav-btn">+ Add</a>
+      <a href="/logout" class="nav-btn dark">Logout</a>
+    <% } else { %>
+      <a href="/" class="nav-link">Home</a>
+      <a href="/login" class="nav-btn">Login</a>
+      <a href="/signup" class="nav-btn dark">Signup</a>
+    <% } %>
+  </div>
+</nav>
+
+<style>
+  nav {
+    background: #ff385c;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+  }
+  .nav-brand {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .nav-user {
+    color: white;
+    font-size: 14px;
+  }
+  .nav-btn {
+    color: #ff385c;
+    background: white;
+    padding: 7px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 13px;
+  }
+  .nav-btn.dark {
+    background: #222;
+    color: white;
+  }
+
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .hamburger { display: flex; }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: 0;
+      background: #ff385c;
+      padding: 20px 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .nav-links.open { display: flex; }
+    .nav-btn { width: 100%; text-align: center; padding: 10px; }
+    .nav-link { color: white; font-size: 16px; }
+    .nav-user { font-size: 15px; }
+    .nav-brand { font-size: 18px; }
+  }
+</style>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+</script>

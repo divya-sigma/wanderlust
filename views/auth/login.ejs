@@ -7,23 +7,6 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Arial, sans-serif; background: #f7f7f7; min-height: 100vh; }
-    nav {
-      background: #ff385c;
-      padding: 14px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    nav h1 { color: white; font-size: 22px; }
-    nav a {
-      color: #ff385c;
-      background: white;
-      padding: 7px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 13px;
-    }
     .form-wrap {
       max-width: 460px;
       margin: 40px auto;
@@ -59,15 +42,13 @@
     .link a { color: #ff385c; text-decoration: none; font-weight: bold; }
     @media (max-width: 600px) {
       .form-wrap { margin: 20px 16px; padding: 24px 20px; }
-      nav h1 { font-size: 18px; }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <h1>🏕️ Wanderlust</h1>
-    <a href="/listings">All Listings</a>
-  </nav>
+
+<%- include('../../partials/navbar') %>
+
   <div class="form-wrap">
     <h2>Welcome Back! 👋</h2>
     <% if (error && error.length > 0) { %>
@@ -82,5 +63,8 @@
     </form>
     <div class="link">Don't have an account? <a href="/signup">Sign up</a></div>
   </div>
+
+<%- include('../../partials/footer') %>
+
 </body>
 </html>

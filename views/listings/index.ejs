@@ -8,43 +8,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Arial, sans-serif; background: #f7f7f7; }
 
-    /* Navbar */
-    nav {
-      background: #ff385c;
-      padding: 14px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    nav h1 { color: white; font-size: 22px; }
-    .nav-links {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .nav-links span { color: white; font-size: 14px; }
-    .nav-links a {
-      color: #ff385c;
-      background: white;
-      padding: 7px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 13px;
-    }
-    .nav-links a.dark {
-      background: #222;
-      color: white;
-    }
-
-    /* Search Bar */
+    /* Search */
     .search-wrap {
       background: white;
       padding: 16px 24px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
     .search-form {
       display: flex;
@@ -54,119 +22,190 @@
     }
     .search-form input {
       flex: 1;
-      padding: 10px 16px;
+      padding: 12px 20px;
       border: 1.5px solid #ddd;
-      border-radius: 8px;
+      border-radius: 50px;
       font-size: 14px;
       outline: none;
     }
     .search-form input:focus { border-color: #ff385c; }
     .search-form button {
-      padding: 10px 20px;
+      padding: 10px 18px;
       background: #ff385c;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 14px;
+      border-radius: 50px;
+      font-size: 18px;
       cursor: pointer;
-      white-space: nowrap;
+      aspect-ratio: 1;
     }
-    .search-form button:hover { background: #e0314f; }
 
-    /* Cards */
+    /* Categories */
+    .categories {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 16px 24px;
+      background: white;
+      border-bottom: 1px solid #eee;
+      scrollbar-width: none;
+    }
+    .categories::-webkit-scrollbar { display: none; }
+    .category {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-width: 70px;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 10px;
+      transition: background 0.2s;
+      text-decoration: none;
+      color: #555;
+      border: none;
+      background: none;
+      font-family: Arial, sans-serif;
+    }
+    .category:hover { background: #fff0f0; color: #ff385c; }
+    .category.active { background: #fff0f0; color: #ff385c; border-bottom: 2px solid #ff385c; }
+    .category span { font-size: 28px; }
+    .category p { font-size: 12px; font-weight: 500; white-space: nowrap; }
+
+    /* Cards Grid */
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
       padding: 24px;
       max-width: 1200px;
       margin: 0 auto;
     }
-
     .card {
       background: white;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
       text-decoration: none;
       color: inherit;
       display: block;
     }
-    .card:hover { transform: translateY(-4px); }
-
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
     .card img {
       width: 100%;
-      height: 200px;
+      height: 180px;
       object-fit: cover;
     }
-
-    .card-body { padding: 14px; }
-    .card-body h3 { font-size: 16px; margin-bottom: 6px; color: #222; }
-    .card-body p  { font-size: 13px; color: #777; margin-bottom: 4px; }
+    .card-body { padding: 12px; }
+    .card-body h3 { font-size: 15px; margin-bottom: 4px; color: #222; }
+    .card-body p  { font-size: 12px; color: #888; margin-bottom: 4px; }
     .card-body .price {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: bold;
-      color: #ff385c;
-      margin-top: 8px;
+      color: #333;
+      margin-top: 6px;
     }
+    .card-body .price span { color: #ff385c; }
 
     /* No results */
     .no-results {
+      grid-column: 1/-1;
       text-align: center;
-      margin-top: 60px;
+      padding: 60px 24px;
       color: #aaa;
-      padding: 0 24px;
     }
-    .no-results h3 { font-size: 20px; margin-bottom: 8px; }
+    .no-results h3 { font-size: 20px; margin-bottom: 8px; color: #555; }
     .no-results a {
       color: #ff385c;
       font-weight: bold;
+      text-decoration: none;
       display: inline-block;
       margin-top: 12px;
-      text-decoration: none;
+    }
+
+    /* Flash */
+    .flash-success {
+      background: #e0f7e9; color: #1a7a3f;
+      padding: 12px 24px; font-size: 14px;
+      text-align: center;
+    }
+    .flash-error {
+      background: #ffe0e0; color: #cc0000;
+      padding: 12px 24px; font-size: 14px;
+      text-align: center;
     }
 
     /* Responsive */
     @media (max-width: 600px) {
-      nav { padding: 12px 16px; }
-      nav h1 { font-size: 18px; }
-      .nav-links a { padding: 6px 10px; font-size: 12px; }
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 16px;
+      }
+      .card img { height: 130px; }
+      .card-body { padding: 10px; }
+      .card-body h3 { font-size: 13px; }
+      .card-body p  { font-size: 11px; }
+      .card-body .price { font-size: 12px; }
       .search-wrap { padding: 12px 16px; }
-      .cards { padding: 16px; gap: 16px; }
-      .card img { height: 160px; }
+      .categories { padding: 12px 16px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav>
-    <h1>🏕️ Wanderlust</h1>
-    <div class="nav-links">
-      <% if (currUser) { %>
-        <span>Hi, <%= currUser.username %>!</span>
-        <a href="/listings/new">+ Add</a>
-        <a href="/logout" class="dark">Logout</a>
-      <% } else { %>
-        <a href="/login">Login</a>
-        <a href="/signup" class="dark">Signup</a>
-      <% } %>
-    </div>
-  </nav>
+  <%- include('../partials/navbar') %>
 
-  <!-- Search Bar -->
+  <% if (success && success.length > 0) { %>
+    <div class="flash-success"><%= success %></div>
+  <% } %>
+  <% if (error && error.length > 0) { %>
+    <div class="flash-error"><%= error %></div>
+  <% } %>
+
+  <!-- Search -->
   <div class="search-wrap">
     <form class="search-form" action="/listings" method="GET">
       <input
         type="text"
         name="search"
-        placeholder="🔍 Search by location, country or title..."
+        placeholder="Search by location..."
         value="<%= search || '' %>"
       />
-      <button type="submit">Search</button>
+      <button type="submit">🔍</button>
     </form>
+  </div>
+
+  <!-- Categories -->
+  <div class="categories">
+    <a class="category <%= !search ? 'active' : '' %>" href="/listings">
+      <span>🏠</span><p>All</p>
+    </a>
+    <a class="category <%= search === 'beach' ? 'active' : '' %>" href="/listings?search=beach">
+      <span>🏖️</span><p>Beaches</p>
+    </a>
+    <a class="category <%= search === 'mountain' ? 'active' : '' %>" href="/listings?search=mountain">
+      <span>🏔️</span><p>Mountains</p>
+    </a>
+    <a class="category <%= search === 'lake' ? 'active' : '' %>" href="/listings?search=lake">
+      <span>🏞️</span><p>Lakes</p>
+    </a>
+    <a class="category <%= search === 'nature' ? 'active' : '' %>" href="/listings?search=nature">
+      <span>🌿</span><p>Nature</p>
+    </a>
+    <a class="category <%= search === 'adventure' ? 'active' : '' %>" href="/listings?search=adventure">
+      <span>🧗</span><p>Adventure</p>
+    </a>
+    <a class="category <%= search === 'farm' ? 'active' : '' %>" href="/listings?search=farm">
+      <span>🚜</span><p>Farms</p>
+    </a>
+    <a class="category <%= search === 'village' ? 'active' : '' %>" href="/listings?search=village">
+      <span>🛖</span><p>Village</p>
+    </a>
   </div>
 
   <!-- Cards -->
@@ -174,7 +213,7 @@
     <% if (allListings.length === 0) { %>
       <div class="no-results">
         <h3>No listings found for "<%= search %>"</h3>
-        <p>Try searching for a different location!</p>
+        <p>Try a different search or category!</p>
         <a href="/listings">View all listings</a>
       </div>
     <% } else { %>
@@ -187,12 +226,14 @@
           <div class="card-body">
             <h3><%= listing.title %></h3>
             <p>📍 <%= listing.location %>, <%= listing.country %></p>
-            <div class="price">₹<%= listing.price %> / night</div>
+            <div class="price">₹<span><%= listing.price %></span> / night</div>
           </div>
         </a>
       <% } %>
     <% } %>
   </div>
+
+  <%- include('../partials/footer') %>
 
 </body>
 </html>
