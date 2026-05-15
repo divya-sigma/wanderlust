@@ -1,0 +1,39 @@
+<nav>
+  <a href="/listings" class="nav-brand">🏕️ Wanderlust</a>
+
+  <button class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="nav-links" id="navLinks">
+    <% if (currUser) { %>
+      <span class="nav-user">Hi, <%= currUser.username %>!</span>
+      <a href="/listings/new" class="nav-btn">+ Add</a>
+      <a href="/logout" class="nav-btn dark">Logout</a>
+    <% } else { %>
+      <a href="/listings" class="nav-link">Home</a>
+      <a href="/login" class="nav-btn">Login</a>
+      <a href="/signup" class="nav-btn dark">Signup</a>
+    <% } %>
+  </div>
+</nav>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+</script>
+/* Flash animation */
+.flash-success,
+.flash-error {
+  animation: fadeout 0.5s ease 3s forwards;
+}
+
+@keyframes fadeout {
+  from { opacity: 1; }
+  to   { opacity: 0; display: none; }
+}

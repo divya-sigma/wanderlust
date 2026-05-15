@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <%- include('../partials/head') %>
   <title>Wanderlust — All Listings</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -194,31 +193,31 @@
 
     <!-- Categories -->
     <div class="categories">
-      <a class="category <%= !search ? 'active' : '' %>" href="/listings">
-        <span>🏠</span><p>All</p>
-      </a>
-      <a class="category <%= search === 'beach' ? 'active' : '' %>" href="/listings?search=beach">
-        <span>🏖️</span><p>Beaches</p>
-      </a>
-      <a class="category <%= search === 'mountain' ? 'active' : '' %>" href="/listings?search=mountain">
-        <span>🏔️</span><p>Mountains</p>
-      </a>
-      <a class="category <%= search === 'lake' ? 'active' : '' %>" href="/listings?search=lake">
-        <span>🏞️</span><p>Lakes</p>
-      </a>
-      <a class="category <%= search === 'nature' ? 'active' : '' %>" href="/listings?search=nature">
-        <span>🌿</span><p>Nature</p>
-      </a>
-      <a class="category <%= search === 'adventure' ? 'active' : '' %>" href="/listings?search=adventure">
-        <span>🧗</span><p>Adventure</p>
-      </a>
-      <a class="category <%= search === 'farm' ? 'active' : '' %>" href="/listings?search=farm">
-        <span>🚜</span><p>Farms</p>
-      </a>
-      <a class="category <%= search === 'village' ? 'active' : '' %>" href="/listings?search=village">
-        <span>🛖</span><p>Village</p>
-      </a>
-    </div>
+  <a class="category <%= !search ? 'active' : '' %>" href="/listings">
+    <i class="fa-solid fa-border-all"></i><p>All</p>
+  </a>
+  <a class="category <%= search === 'beach' ? 'active' : '' %>" href="/listings?search=beach">
+    <i class="fa-solid fa-umbrella-beach"></i><p>Beaches</p>
+  </a>
+  <a class="category <%= search === 'mountain' ? 'active' : '' %>" href="/listings?search=mountain">
+    <i class="fa-solid fa-mountain"></i><p>Mountains</p>
+  </a>
+  <a class="category <%= search === 'lake' ? 'active' : '' %>" href="/listings?search=lake">
+    <i class="fa-solid fa-water"></i><p>Lakes</p>
+  </a>
+  <a class="category <%= search === 'nature' ? 'active' : '' %>" href="/listings?search=nature">
+    <i class="fa-solid fa-tree"></i><p>Nature</p>
+  </a>
+  <a class="category <%= search === 'adventure' ? 'active' : '' %>" href="/listings?search=adventure">
+    <i class="fa-solid fa-person-hiking"></i><p>Adventure</p>
+  </a>
+  <a class="category <%= search === 'farm' ? 'active' : '' %>" href="/listings?search=farm">
+    <i class="fa-solid fa-tractor"></i><p>Farms</p>
+  </a>
+  <a class="category <%= search === 'village' ? 'active' : '' %>" href="/listings?search=village">
+    <i class="fa-solid fa-house-chimney"></i><p>Village</p>
+  </a>
+</div>
 
     <!-- Cards -->
     <div class="cards">

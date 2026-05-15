@@ -1,6 +1,6 @@
 <nav>
   
-    <a href="/listings" class="nav-brand">🏕️ Wanderlust</a>
+    <a href="/listings" class="nav-brand"> Wanderlust</a>
   
 
   <!-- Hamburger (mobile only) -->
@@ -120,4 +120,15 @@
   hamburger.addEventListener('click', () => {
     navLinks.classList.toggle('open');
   });
+</script>
+<script>
+  // Auto hide flash messages after 3 seconds
+  setTimeout(() => {
+    const flashes = document.querySelectorAll('.flash-success, .flash-error');
+    flashes.forEach(f => {
+      f.style.transition = 'opacity 0.5s ease';
+      f.style.opacity = '0';
+      setTimeout(() => f.style.display = 'none', 500);
+    });
+  }, 3000);
 </script>
